@@ -34,7 +34,8 @@
 
         // Cargar modelo GLB
         const loader = new THREE.GLTFLoader();
-        loader.load('https://example.com/model.glb', function (gltf) {
+        loader.load('https://raw.githubusercontent.com/kamuliplz/alerta-3d/main/poppy.glb
+', function (gltf) {
             model = gltf.scene;
             model.scale.set(1, 1, 1);
             scene.add(model);
