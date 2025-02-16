@@ -3,54 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GLB Alert</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@react-three/drei@latest/dist/drei.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
-    <style>
-        body { margin: 0; overflow: hidden; }
-        canvas { display: block; }
-    </style>
+    <title>Visor 3D - GitHub Pages</title>
+    <script type="module">
+        import * as THREE from 'https://unpkg.com/three@0.139.2/build/three.module.js';
+        import { GLTFLoader } from 'https://unpkg.com/three@0.139.2/examples/jsm/loaders/GLTFLoader.js';
+
+        let scene, camera, renderer;
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            const loader = new GLTFLoader();
+            loader.load('poppy.gltf', (gltf) => {
+                scene.add(gltf.scene);
+                gltf.scene.position.set(0, -1, 0);
+                animate();
+            }, undefined, (error) => {
+                console.error('Error cargando el modelo:', error);
+            });
+
+            camera.position.z = 5;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+
+        window.onload = init;
+    </script>
 </head>
 <body>
-
-<script>
-    let scene, camera, renderer, model;
-    
-    function init() {
-        // Crear la escena
-        scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 3;
-
-        renderer = new THREE.WebGLRenderer({ alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
-
-        // Luz
-        const light = new THREE.AmbientLight(0xffffff, 1);
-        scene.add(light);
-
-        // Cargar modelo GLB
-        const loader = new THREE.GLTFLoader();
-        loader.load('poppy.glb', function (gltf) {
-            model = gltf.scene;
-            model.scale.set(1, 1, 1);
-            scene.add(model);
-        });
-
-        animate();
-    }
-
-    function animate() {
-        requestAnimationFrame(animate);
-        if (model) model.rotation.y += 0.01;
-        renderer.render(scene, camera);
-    }
-
-    window.onload = init;
-</script>
-
 </body>
 </html>
