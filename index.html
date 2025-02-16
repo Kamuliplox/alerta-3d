@@ -1,32 +1,55 @@
-<script type="module">
-    import * as THREE from './three.core.js';
-    import { GLTFLoader } from './GLTFLoader.js';
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Alert</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden;">
+    <script>
+        let scene, camera, renderer, model, mixer;
 
-    let scene, camera, renderer;
+        function init() {
+            // Configuración de la escena
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.z = 2;
 
-    function init() {
-        scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        renderer = new THREE.WebGLRenderer({ alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+            renderer = new THREE.WebGLRenderer({ alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
 
-        const loader = new GLTFLoader();
-        loader.load('poppy.gltf', (gltf) => {
-            scene.add(gltf.scene);
-            gltf.scene.position.set(0, -1, 0);
+            // Luz
+            const light = new THREE.AmbientLight(0xffffff);
+            scene.add(light);
+
+            // Cargar el modelo GLB
+            const loader = new THREE.GLTFLoader();
+            loader.load('URL_DEL_MODELO.glb', (gltf) => {
+                model = gltf.scene;
+                scene.add(model);
+
+                // Si el modelo tiene animaciones
+                if (gltf.animations.length > 0) {
+                    mixer = new THREE.AnimationMixer(model);
+                    gltf.animations.forEach((clip) => {
+                        mixer.clipAction(clip).play();
+                    });
+                }
+            });
+
             animate();
-        }, undefined, (error) => {
-            console.error('Error cargando el modelo:', error);
-        });
+        }
 
-        camera.position.z = 5;
-    }
+        function animate() {
+            requestAnimationFrame(animate);
+            if (mixer) mixer.update(0.01);
+            renderer.render(scene, camera);
+        }
 
-    function animate() {
-        requestAnimationFrame(animate);
-        renderer.render(scene, camera);
-    }
-
-    window.onload = init;
-</script>
+        window.onload = init;
+    </script>
+</body>
+</html>
