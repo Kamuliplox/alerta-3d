@@ -1,41 +1,32 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visor 3D - GitHub Pages</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/loaders/GLTFLoader.js"></script>
-</head>
-<body>
-    <script>
-        let scene, camera, renderer;
+<script type="module">
+    import * as THREE from './libs/three.module.js';
+    import { GLTFLoader } from './libs/GLTFLoader.js';
 
-        function init() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({ alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.body.appendChild(renderer.domElement);
+    let scene, camera, renderer;
 
-            const loader = new THREE.GLTFLoader();
-            loader.load('poppy.gltf', (gltf) => {
-                scene.add(gltf.scene);
-                gltf.scene.position.set(0, -1, 0);
-                animate();
-            }, undefined, (error) => {
-                console.error('Error cargando el modelo:', error);
-            });
+    function init() {
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
 
-            camera.position.z = 5;
-        }
+        const loader = new GLTFLoader();
+        loader.load('poppy.gltf', (gltf) => {
+            scene.add(gltf.scene);
+            gltf.scene.position.set(0, -1, 0);
+            animate();
+        }, undefined, (error) => {
+            console.error('Error cargando el modelo:', error);
+        });
 
-        function animate() {
-            requestAnimationFrame(animate);
-            renderer.render(scene, camera);
-        }
+        camera.position.z = 5;
+    }
 
-        window.onload = init;
-    </script>
-</body>
-</html>
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+    }
+
+    window.onload = init;
+</script>
