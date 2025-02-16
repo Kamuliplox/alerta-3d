@@ -120,10 +120,10 @@
 	]
         "images": [
   		{
-    			"uri": "https://kamuliplox.github.io/modelos-3d/textures/difuse.png"
+    			"uri": "https://kamuliplox.github.io/alerta-3d/textures/difuse.png"
   		},
   		{
-   			"uri": "https://kamuliplox.github.io/modelos-3d/textures/normal.png"
+   			"uri": "https://kamuliplox.github.io/alerta-3d/textures/normal.png"
   		}
 ]
 }
