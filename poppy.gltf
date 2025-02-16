@@ -117,13 +117,13 @@
 			"byteLength":840,
 			"uri":"poppy.bin"
 		}
+	],
+	"images": [
+		{
+			"uri": "https://kamuliplox.github.io/alerta-3d/textures/difuse.png"
+		},
+		{
+			"uri": "https://kamuliplox.github.io/alerta-3d/textures/normal.png"
+		}
 	]
-        "images": [
-  		{
-    			"uri": "https://kamuliplox.github.io/alerta-3d/textures/difuse.png"
-  		},
-  		{
-   			"uri": "https://kamuliplox.github.io/alerta-3d/textures/normal.png"
-  		}
-]
 }
